@@ -10,8 +10,13 @@
 <body>
     <h1>Rock Paper Scissors</h1>
     <script>
-        compChoice = getComputerChoice()
-        console.log(compChoice)
+        let compChoice = getComputerChoice();
+
+        window.alert("Let's play Rock, Paper, Scissors");
+        let userChoice = prompt("1 for Rock, 2 for Paper, 3 for Scissors, 4 to exit");
+        let roundResults = playRound(userChoice, compChoice);
+        window.alert(roundResults);
+
     </script>
 </body>
 </html>
