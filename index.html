@@ -9,13 +9,163 @@
 </head>
 <body>
     <h1>Rock Paper Scissors</h1>
-    <script>
-        let compChoice = getComputerChoice();
+    <button class="rock-btn">Rock</button>
+    <button class="paper-btn">Paper</button>
+    <button class="scissors-btn">Scissors</button>
+    <div id="results"></div>
+    <div>Your score: <span id="score-user"></span></div>
+    <div>Computer score: <span id="score-comp"></span></div>
+    <div id="overall-win"></div>
+    <button class="reset">Reset</button>
 
-        window.alert("Let's play Rock, Paper, Scissors");
-        let userChoice = prompt("1 for Rock, 2 for Paper, 3 for Scissors, 4 to exit");
-        let roundResults = playRound(userChoice, compChoice);
-        window.alert(roundResults);
+
+    <script>
+        // select reset button
+        const resetBtn = document.querySelector('.reset');
+        // hide reset button for now
+        resetBtn.style.display = "none";
+
+        // select 3 button options
+        const rockBtn = document.querySelector('.rock-btn')
+        const paperBtn = document.querySelector('.paper-btn')
+        const scissorsBtn = document.querySelector('.scissors-btn')
+        // initialize scores
+        let userWin = 0;
+        let compWin = 0;
+
+        function overallWin (userScore, compScore) {
+            // if user reaches score of 5
+            if (userScore === 5) {
+                // display user wins' message
+                document.getElementById('overall-win').innerHTML = "You win!";
+
+                // disable buttons to prevent more play            
+                rockBtn.disabled = true;
+                paperBtn.disabled = true;
+                scissorsBtn.disabled = true;
+
+                // show reset button after other buttons are disabled
+                resetBtn.style.display = "block";
+            // if comp reaches score of 5
+            } else if (compScore === 5) {
+                // display comp wins' message
+                document.getElementById('overall-win').innerHTML = "Computer wins!";
+
+                // disable buttons to prevent more play            
+                rockBtn.disabled = true;
+                paperBtn.disabled = true;
+                scissorsBtn.disabled = true;
+
+                // show reset button after other buttons are disabled
+                resetBtn.style.display = "block";
+            }
+        };
+
+        // fx has no inputs and displays results in div and scores in div.
+        // disables buttons after user or comp reaches score of 5
+        function rockButton () {
+            // set user choice and get comp choice
+            const userChoice = 1;
+            const compChoice = getComputerChoice();
+            // get round results
+            const rockRound = playRound(userChoice, compChoice);
+
+            // if user wins:
+            if (rockRound === 1) {
+                // add one to user score
+                userWin += 1;
+                // display round results
+                document.getElementById('results').innerHTML = "Rock beats Scissors!";
+            } else if (rockRound === 2) { // if computer wins
+                // add one to comp score
+                compWin += 1;
+                // display round results
+                document.getElementById('results').innerHTML = "Paper beats rock...";
+            } else {
+                // if there is a tie, display tie results
+                document.getElementById('results').innerHTML = "You tied.";
+            }
+
+            // display scores as they're played
+            document.getElementById('score-user').innerHTML = userWin; // user's score
+            document.getElementById('score-comp').innerHTML = compWin; // comp's score
+
+            // call overallWin fx
+            overallWin(userWin, compWin);
+        };
+
+        // see comments for rock-btn. same comments for paper button
+        function paperButton () {
+            const userChoice = 2;
+            const compChoice = getComputerChoice();
+            const paperRound = playRound(userChoice, compChoice);
+
+            if (paperRound === 2) {
+                userWin += 1;
+                document.getElementById('results').innerHTML = "Paper beats rock!";
+            } else if (paperRound === 3) {
+                compWin += 1;
+                document.getElementById('results').innerHTML = "Scissors beats paper...";
+            } else {
+                document.getElementById('results').innerHTML = "You tied.";
+            }
+
+            document.getElementById('score-user').innerHTML = userWin;
+            document.getElementById('score-comp').innerHTML = compWin;
+
+            overallWin(userWin, compWin);
+        };
+
+        // see comments for rock-btn. same comments for scissors button
+        function scissorsButton () {
+            const userChoice = 3;
+            const compChoice = getComputerChoice();
+            const scissorsRound = playRound(userChoice, compChoice);
+
+            if (scissorsRound === 3) {
+                userWin += 1;
+                document.getElementById('results').innerHTML = "Scissors beats paper!";
+            } else if (scissorsRound === 1) {
+                compWin += 1;
+                document.getElementById('results').innerHTML = "Rock beats scissors...";
+            } else {
+                document.getElementById('results').innerHTML = "You tied.";
+            }
+
+            document.getElementById('score-user').innerHTML = userWin;
+            document.getElementById('score-comp').innerHTML = compWin;
+
+            overallWin(userWin, compWin);
+        };
+
+        // add click event listener to each button and run above fxs when clicked.
+        rockBtn.addEventListener('click', rockButton);
+        paperBtn.addEventListener('click', paperButton);
+        scissorsBtn.addEventListener('click', scissorsButton);
+
+        // add click even listener for reset button
+        resetBtn.addEventListener('click', () => {
+            // reset scores
+            userWin = 0;
+            compWin = 0;
+            // re-enable play buttons
+            rockBtn.disabled = false;
+            paperBtn.disabled = false;
+            scissorsBtn.disabled = false;
+            // clear scoreboard and messages
+            document.getElementById('results').innerHTML = "";
+            document.getElementById('overall-win').innerHTML = "";
+            document.getElementById('score-user').innerHTML = 0;
+            document.getElementById('score-comp').innerHTML = 0;
+            // hide reset button
+            resetBtn.style.display = "none";
+        });
+
+
+
+
+
+
 
     </script>
 </body>
